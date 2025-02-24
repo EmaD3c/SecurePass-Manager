@@ -4,8 +4,8 @@ services:
   api:
     container_name: api
     build:
-      context: .
-      dockerfile: docker/Dockerfile
+      context: app/
+      dockerfile: dockerfile
     ports:
       - "8000:8000"
     restart: unless-stopped
