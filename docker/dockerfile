@@ -1,12 +1,15 @@
-FROM python:3.12-alpine AS builder
+FROM python:3.9-slim
 
 WORKDIR /app
 
-COPY requirements.txt /app
-RUN --mount=type=cache,target=/root/.cache/pip \
-    pip3 install -r requirements.txt
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
 
-COPY . /app
+COPY . .
 
-ENTRYPOINT ["python3"]
-CMD ["app.py"]
+# Ajoute  app au PYTHONPATH
+ENV PYTHONPATH="${PYTHONPATH}:/app"
+
+EXPOSE 8000
+
+CMD ["python", "app/app.py"]  # Pointe vers app/app.py

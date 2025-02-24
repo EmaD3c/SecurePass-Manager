@@ -1,14 +1,21 @@
+version: '3.8'
+
 services:
   api:
     container_name: api
     build:
-      context: app
-      target: builder
+      context: .
+      dockerfile: docker/Dockerfile
     ports:
       - "8000:8000"
     restart: unless-stopped
     volumes:
       - ./app:/app
+    environment:
+      - FLASK_ENV=development
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/postgres
+    depends_on:
+      - db
 
   db:
     container_name: db
