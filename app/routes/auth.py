@@ -1,5 +1,5 @@
-from flask import Blueprint
-from ..controllers.user_controller import register, login
+from flask import Blueprint, request, jsonify
+from app.controllers.user_controller import register, login
 
 auth_bp = Blueprint('auth', __name__)
 

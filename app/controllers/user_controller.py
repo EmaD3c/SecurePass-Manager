@@ -1,5 +1,5 @@
 from flask import request, jsonify
-from ..models.user import User
+from models.user import User
 from .. import storage
 import jwt
 from datetime import datetime, timedelta

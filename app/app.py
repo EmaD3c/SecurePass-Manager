@@ -1,9 +1,15 @@
 from flask import Flask
-app = Flask(__name__)
+from app.routes.auth import auth_bp
 
-@app.route('/')
-def hello():
-	return "Hello World!"
+def create_app():
+    app = Flask(__name__)
+
+    # Enregistre le Blueprint d'authentification
+    app.register_blueprint(auth_bp, url_prefix='/api/auth')
+
+    return app
+
+app = create_app()
 
 if __name__ == '__main__':
-	app.run(debug = True, host='0.0.0.0', port=8000)
+    app.run(host='0.0.0.0', port=8000)
