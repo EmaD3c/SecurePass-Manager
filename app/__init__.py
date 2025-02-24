@@ -1,18 +1,17 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from flask_jwt_extended import JWTManager
-from flask_bcrypt import Bcrypt
+from .routes.auth import auth_bp
 
-bcrypt = Bcrypt()
-jwt = JWTManager()
 db = SQLAlchemy()
 
-def create_app(config_class="config.DevelopmentConfig"):
+def create_app():
     app = Flask(__name__)
-    app.config.from_object(config_class)
+    app.config.from_object('config')
 
-    bcrypt.init_app(app)
-    jwt.init_app(app)
+    # Initialise la base de données
     db.init_app(app)
+
+    # Enregistre les Blueprints
+    app.register_blueprint(auth_bp, url_prefix='/api/auth')
 
     return app
