@@ -3,14 +3,16 @@ from models.user import User
 import jwt
 from datetime import datetime, timedelta
 from controllers.database_handler import DatabaseHandler
+from werkzeug.security import check_password_hash
 
 database_handler = DatabaseHandler(".db")
 
 SECRET_KEY = 'your-secret-key'
 
+from models import User  # Assure-toi que tu as importé le modèle User
+
 def get_user_by_email(email):
-    """Récupère un utilisateur par son email."""
-    return database_handler.get_user_by_email(email)
+    return User.query.filter_by(email=email).first()  # Cherche l'utilisateur par son email
 
 def register():
     data = request.get_json()
@@ -24,9 +26,13 @@ def register():
     if existing_user:
         return jsonify({"error": "User already exists"}), 400
 
-    # Cree un nouvel utilisateur
+    # Crée un nouvel utilisateur
     new_user = User(email=email, password=password)
-    database_handler.save_user(new_user)  # database handler sauvegarde l'user
+    print(f"Before saving: {new_user.__dict__}")
+
+    database_handler.save_user(new_user)  
+
+    print(f"After saving: {new_user.__dict__}")
 
     token = jwt.encode({
         'user_id': new_user.id,
@@ -37,23 +43,31 @@ def register():
 
 def login():
     data = request.get_json()
+
+    # Vérification des données d'entrée
     email = data.get('email')
     password = data.get('password')
 
     if not email or not password:
         return jsonify({"error": "Email and password are required"}), 400
 
-    user = get_user_by_email(email)
-    if not user:
-        return jsonify({"error": "User not found"}), 404
+    # Recherche de l'utilisateur par email
+    user = User.query.filter_by(email=email).first()
 
-    if not user.check_password(password):
+    if not user:
+        return jsonify({"error": "User not found"}), 401  # Code 401 pour erreur d'authentification
+
+    # Vérification du mot de passe
+    if not check_password_hash(user.password, password):
         return jsonify({"error": "Invalid password"}), 401
 
-    # Génère un token JWT
-    token = jwt.encode({
+    # Création du payload pour le JWT
+    payload = {
         'user_id': user.id,
-        'exp': datetime.utcnow() + timedelta(hours=1)
-    }, SECRET_KEY, algorithm='HS256')
+        'exp': datetime.utcnow() + timedelta(hours=1)  # Le token expire dans 1 heure
+    }
+
+    # Création du token JWT
+    token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
 
     return jsonify({"token": token}), 200

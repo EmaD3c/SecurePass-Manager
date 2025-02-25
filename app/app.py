@@ -1,6 +1,6 @@
 from flask import Flask
 from routes.auth import auth_bp
-from controllers.database_handler import DatabaseHandler
+from controllers.database_handler import DatabaseHandler, DATABASE_URL
 
 # Initialise le DatabaseHandler avec l'URL de la base de données
 database_handler = DatabaseHandler("postgresql://postgres:postgres@db:5432/postgres")
