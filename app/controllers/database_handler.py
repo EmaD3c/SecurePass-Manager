@@ -71,12 +71,12 @@ class DatabaseHandler:
 
         user_id = cursor.fetchone()
         if user_id:
-            user.id = user_id[0]  # ✅ Stocke l'ID dans l'objet user
+            user.id = user_id[0]  # stocke l'ID dans l'objet user
         
         conn.commit()
         conn.close()
 
-        print(f"User ID after saving: {user.id}")  # ✅ Doit afficher un ID valide
+        print(f"User ID after saving: {user.id}")  # Doit afficher un ID valide
 
 
     def get_user_by_email(self, email):

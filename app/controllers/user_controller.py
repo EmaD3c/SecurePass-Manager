@@ -9,7 +9,7 @@ database_handler = DatabaseHandler(".db")
 
 SECRET_KEY = 'your-secret-key'
 
-from models import User  # Assure-toi que tu as importé le modèle User
+from models import User
 
 def get_user_by_email(email):
     return User.query.filter_by(email=email).first()  # Cherche l'utilisateur par son email
@@ -55,7 +55,7 @@ def login():
     user = User.query.filter_by(email=email).first()
 
     if not user:
-        return jsonify({"error": "User not found"}), 401  # Code 401 pour erreur d'authentification
+        return jsonify({"error": "User not found"}), 401
 
     # Vérification du mot de passe
     if not check_password_hash(user.password, password):
@@ -64,7 +64,7 @@ def login():
     # Création du payload pour le JWT
     payload = {
         'user_id': user.id,
-        'exp': datetime.utcnow() + timedelta(hours=1)  # Le token expire dans 1 heure
+        'exp': datetime.utcnow() + timedelta(hours=1)
     }
 
     # Création du token JWT
