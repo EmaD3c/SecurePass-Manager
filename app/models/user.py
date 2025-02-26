@@ -2,7 +2,7 @@ from sqlalchemy import Column, String, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 from datetime import datetime
 import bcrypt
-from password import generate_password_hash
+from models.password import generate_password_hash
 
 Base = declarative_base()
 
