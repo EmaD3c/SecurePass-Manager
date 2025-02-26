@@ -2,6 +2,7 @@ from sqlalchemy import Column, String, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 from datetime import datetime
 import bcrypt
+from password import generate_password_hash
 
 Base = declarative_base()
 
@@ -15,12 +16,4 @@ class User(Base):
 
     def __init__(self, email, password):
         self.email = email
-        self.password = self._hash_password(password)
-
-    def _hash_password(self, password):
-        """Hash le mot de passe avant de l'enregistrer dans la base de données."""
-        return bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
-
-    def check_password(self, password):
-        """Vérifie si le mot de passe fourni correspond à celui stocké dans la base de données."""
-        return bcrypt.checkpw(password.encode('utf-8'), self.password.encode('utf-8'))
+        self.password = self.generate_password_hash(password)

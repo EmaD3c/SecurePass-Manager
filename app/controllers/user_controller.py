@@ -3,13 +3,11 @@ from models.user import User
 import jwt
 from datetime import datetime, timedelta
 from controllers.database_handler import DatabaseHandler
-from werkzeug.security import check_password_hash
+from models.password import check_password_hash
 
 database_handler = DatabaseHandler(".db")
 
 SECRET_KEY = 'your-secret-key'
-
-from models import User
 
 def get_user_by_email(email):
     return User.query.filter_by(email=email).first()  # Cherche l'utilisateur par son email
