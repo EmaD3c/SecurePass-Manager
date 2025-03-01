@@ -3,7 +3,7 @@ from models.user import User
 import jwt
 from datetime import datetime, timedelta
 from controllers.database_handler import DatabaseHandler
-from models.password import check_password_hash
+from models.password import check_password_hash, generate_password_hash
 
 database_handler = DatabaseHandler(".db")
 
@@ -24,8 +24,10 @@ def register():
     if existing_user:
         return jsonify({"error": "User already exists"}), 400
 
+    hashed_password = generate_password_hash(password)
+
     # Crée un nouvel utilisateur
-    new_user = User(email=email, password=password)
+    new_user = User(email=email, password=hashed_password)
     print(f"Before saving: {new_user.__dict__}")
 
     database_handler.save_user(new_user)  

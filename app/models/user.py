@@ -1,7 +1,6 @@
 from sqlalchemy import Column, String, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 from datetime import datetime
-import bcrypt
 from models.password import generate_password_hash
 
 Base = declarative_base()
@@ -16,4 +15,4 @@ class User(Base):
 
     def __init__(self, email, password):
         self.email = email
-        self.password = self.generate_password_hash(password)
+        self.password = generate_password_hash(password)
