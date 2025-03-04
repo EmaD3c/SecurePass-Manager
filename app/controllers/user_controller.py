@@ -54,7 +54,7 @@ def login():
         return jsonify({"error": "Email and password are required"}), 400
 
     # Recherche de l'utilisateur par email
-    user = User.query.filter_by(email=email).first()
+    user = db.query(User).filter_by(email=email).first()
 
     if not user:
         return jsonify({"error": "User not found"}), 401
