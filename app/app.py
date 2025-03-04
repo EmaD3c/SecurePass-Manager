@@ -1,10 +1,6 @@
 from flask import Flask
 from routes.auth import auth_bp
-from controllers.database_handler import DatabaseHandler, DATABASE_URL
-from database import db
-
-# Crée les tables nécessaires dans la base de données
-db.create_tables()
+from controllers.database_handler import db
 
 def create_app():
     app = Flask(__name__)

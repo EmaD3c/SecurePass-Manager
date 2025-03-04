@@ -3,23 +3,26 @@ from models.user import User
 import jwt
 from datetime import datetime, timedelta
 from models.password import check_password_hash, generate_password_hash
-from database import db
+from controllers.database_handler import db
 from psycopg2.extras import RealDictCursor
 
 SECRET_KEY = 'your-secret-key'
 
 def get_user_by_email(email):
-    return User.query.filter_by(email=email).first()  # Cherche l'utilisateur par son email
+    return db.query(User).filter_by(email=email).first()
 
 def register():
     data = request.get_json()
     email = data.get('email')
     password = data.get('password')
 
+    print (email, password)
+
     if not email or not password:
         return jsonify({"error": "Email and password are required"}), 400
 
-    existing_user = get_user_by_email(email)
+    existing_user = get_user_by_email(email=email)
+
     if existing_user:
         return jsonify({"error": "User already exists"}), 400
 
@@ -29,7 +32,7 @@ def register():
     new_user = User(email=email, password=hashed_password)
     print(f"Before saving: {new_user.__dict__}")
 
-    db.save_user(new_user)  
+    save_user(email, hashed_password)
 
     print(f"After saving: {new_user.__dict__}")
 
@@ -71,52 +74,15 @@ def login():
 
     return jsonify({"token": token}), 200
 
-def save_user(self, user):
-        """
-        Sauvegarde un utilisateur dans la base de données.
-        """
-        conn = self.connect()
-        if conn is None:
-            print("Failed to connect to the database. Cannot save user.")
-            return None  
+def save_user(email, password):
+    user_to_save = User(
+        email = email,
+        password = password
+    )
 
-        cursor = conn.cursor()
-        cursor.execute('''
-            INSERT INTO users (email, password)
-            VALUES (%s, %s)
-            RETURNING id
-        ''', (user.email, user.password))
+    db.add(user_to_save)
+    db.commit()
 
-        user_id = cursor.fetchone()
-        if user_id:
-            user.id = user_id[0]  # stocke l'ID dans l'objet user
-        
-        conn.commit()
-        conn.close()
-
-        print(f"User ID after saving: {user.id}")  # Doit afficher un ID valide
-
-
-def get_user_by_email(self, email):
-    """
-    Récupère un utilisateur par son email.
-    """
-    conn = self.connect()
-    if conn is None:
-        print("Failed to connect to the database. Cannot fetch user.")
-        return None
-
-    cursor = conn.cursor(cursor_factory=RealDictCursor)
-    cursor.execute('''
-        SELECT * FROM users WHERE email = %s
-    ''', (email,))
-    
-    user_data = cursor.fetchone()
-    conn.close()
-
-    if user_data:
-        return User(id=user_data['id'], email=user_data['email'], password=user_data['password'])
-    return None
 
 def update_user(self, user):
     """
