@@ -13,23 +13,22 @@ async function registerUser(email, password) {
 
 async function loginUser(email, password) {
   const response = await fetch("http://localhost:8000/api/auth/login", {
-      method: "POST",
-      headers: {
-          "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email, password }),
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email, password }),
   });
 
-  const data = await response.json();
-
   if (response.ok) {
-      console.log("Token reçu :", data.token);
-      localStorage.setItem("token", data.token);
-
+    const data = await response.json();
+    const token = data.access_token;
+    document.cookie = `token=${token}; path=/; Secure; SameSite=Strict`;
+    console.log("Token enregistré :", token);
+    window.location.href = "dashboard.html";
   } else {
-      console.error("Erreur de connexion :", data.error);
+    alert("Login failed");
   }
 }
+
 
 // butons
 
