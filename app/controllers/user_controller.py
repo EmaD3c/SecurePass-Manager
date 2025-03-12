@@ -1,12 +1,9 @@
 from flask import request, jsonify
 from models.user import User
-import jwt
-from datetime import datetime, timedelta
 from werkzeug.security import generate_password_hash, check_password_hash
 from controllers.database_handler import db
-from psycopg2.extras import RealDictCursor
+from flask_jwt_extended import create_access_token
 
-SECRET_KEY = 'your-secret-key'
 
 def get_user_by_email(email):
     return db.query(User).filter_by(email=email).first()
@@ -30,16 +27,10 @@ def register():
 
     # Crée un nouvel utilisateur
     new_user = User(email=email, password=hashed_password)
-    print(f"Before saving: {new_user.__dict__}")
-
     save_user(email, hashed_password)
 
-    print(f"After saving: {new_user.__dict__}")
-
-    token = jwt.encode({
-        'user_id': new_user.id,
-        'exp': datetime.utcnow() + timedelta(hours=1)
-    }, SECRET_KEY, algorithm='HS256')
+    # Crée un token JWT avec Flask-JWT-Extended
+    token = create_access_token(identity=str(new_user.id))
 
     return jsonify({"token": token}), 201
 
@@ -63,14 +54,8 @@ def login():
     if not check_password_hash(user.password, password):
         return jsonify({"error": "Invalid password"}), 401
 
-    # Création du payload pour le JWT
-    payload = {
-        'user_id': user.id,
-        'exp': datetime.utcnow() + timedelta(hours=1)
-    }
-
-    # Création du token JWT
-    token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
+     # Crée un token JWT avec Flask-JWT-Extended
+    token = create_access_token(identity=str(user.id))
 
     return jsonify({"token": token}), 200
 
