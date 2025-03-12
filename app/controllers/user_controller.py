@@ -2,7 +2,7 @@ from flask import request, jsonify
 from models.user import User
 import jwt
 from datetime import datetime, timedelta
-from models.password import check_password_hash, generate_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash
 from controllers.database_handler import db
 from psycopg2.extras import RealDictCursor
 
