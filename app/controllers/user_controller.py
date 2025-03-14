@@ -1,12 +1,12 @@
 from flask import request, jsonify
 from models.user import User
 from werkzeug.security import generate_password_hash, check_password_hash
-from controllers.database_handler import db
+from controllers.database_handler import db_session
 from flask_jwt_extended import create_access_token
 
 
 def get_user_by_email(email):
-    return db.query(User).filter_by(email=email).first()
+    return db_session.query(User).filter_by(email=email).first()
 
 def register():
     data = request.get_json()
@@ -45,7 +45,7 @@ def login():
         return jsonify({"error": "Email and password are required"}), 400
 
     # Recherche de l'utilisateur par email
-    user = db.query(User).filter_by(email=email).first()
+    user = db_session.query(User).filter_by(email=email).first()
 
     if not user:
         return jsonify({"error": "User not found"}), 401
@@ -65,8 +65,8 @@ def save_user(email, password):
         password = password
     )
 
-    db.add(user_to_save)
-    db.commit()
+    db_session.add(user_to_save)
+    db_session.commit()
 
 
 def update_user(self, user):

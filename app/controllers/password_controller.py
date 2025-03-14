@@ -1,7 +1,7 @@
 from flask import jsonify, request
 from models.password import Password
 from werkzeug.security import generate_password_hash, check_password_hash
-from controllers.database_handler import db
+from controllers.database_handler import db_session
 from flask_jwt_extended import get_jwt_identity
 
 
@@ -15,8 +15,8 @@ def add_password():
 
     new_password = Password(name=data['name'], password=data['password'], user_id=user_id)
 
-    db.add(new_password)
-    db.commit()
+    db_session.add(new_password)
+    db_session.commit()
 
     return jsonify({"message": "Mot de passe ajouté avec succès"}), 201
 
@@ -25,7 +25,7 @@ def update_password(password_id):
     user_id = get_jwt_identity()
     data = request.get_json()
 
-    password_entry = db.session.query(Password).filter_by(id=password_id, user_id=user_id).first()
+    password_entry = db_session.query(Password).filter_by(id=password_id, user_id=user_id).first()
 
     if not password_entry:
         return jsonify({"error": "Mot de passe non trouvé"}), 404
@@ -33,19 +33,19 @@ def update_password(password_id):
     if 'password' in data:
         password_entry.password = data['password']
 
-    db.commit()
+    db_session.commit()
     return jsonify({"message": "Mot de passe mis à jour"}), 200
 
 def delete_password(password_id):
 
     user_id = get_jwt_identity()
 
-    password_entry = db.session.query(Password).filter_by(id=password_id, user_id=user_id).first()
+    password_entry = db_session.query(Password).filter_by(id=password_id, user_id=user_id).first()
 
     if not password_entry:
         return jsonify({"error": "Mot de passe non trouvé"}), 404
 
-    db.delete(password_entry)
-    db.commit()
+    db_session.delete(password_entry)
+    db_session.commit()
 
     return jsonify({"message": "Mot de passe supprimé"}), 200

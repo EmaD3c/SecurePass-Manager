@@ -16,6 +16,15 @@ curl -X POST http://localhost:8000/api/auth/add_password \
      -H "Authorization: Bearer TOKEN" \
      -d '{"name": "Netflix", "password": "1234"}'
 
+curl -X POST http://localhost:8000/api/auth/add_password \
+     -H "Content-Type: application/json" \
+     -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc0MTkxMTc4NSwianRpIjoiNTFmOTdjOGEtZjIyYi00MzUxLWE4MGYtN2MzYjVkNGRjYjAxIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IjMiLCJuYmYiOj
+E3NDE5MTE3ODUsImNzcmYiOiI5YjRkMjdmNS00YjY1LTQ0YmEtYjNjZC05MTYzZWU3NjUxNWYiLCJleHAiOjE3NDE5MTUzODV9.TX2YVpFD5Po8wyNWT0MLCDeaXEgLRsJzWSb3EaMRHjA" \
+     -d '{                         
+           "name": "MonMotDePasse",
+           "password": "motdepasse123"
+         }'
+
 # modify/update password
 curl -X PUT http://localhost:8000/api/auth/update_password \
      -H "Content-Type: application/json" \

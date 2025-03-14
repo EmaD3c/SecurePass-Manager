@@ -4,18 +4,46 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SecurePass Manager</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="src/style.css">
 </head>
 <body>
-    <h2>Inscription</h2>
-    <input type="email" id="register-email" placeholder="Email">
-    <input type="password" id="register-password" placeholder="Mot de passe">
-    <button id="register-btn">S'inscrire</button>
+    <div class="container">
+        <!-- button -->
+        <div class="toggle-buttons">
+            <button id="show-login" class="active">Login</button>
+            <button id="show-register">Register</button>
+        </div>
 
-    <h2>Connexion</h2>
-    <input type="email" id="login-email" placeholder="Email">
-    <input type="password" id="login-password" placeholder="Mot de passe">
-    <button id="login-btn">Se connecter</button>
+        <!-- login -->
+        <form id="login-form" class="form active">
+            <h2>Login</h2>
+            <div class="input-group">
+                <i class="fas fa-envelope"></i>
+                <input type="email" id="login-email" placeholder="Email" required>
+            </div>
+            <div class="input-group">
+                <i class="fas fa-lock"></i>
+                <input type="password" id="login-password" placeholder="Mot de passe" required>
+            </div>
+            <button type="submit">Login</button>
+        </form>
 
-    <script type="module" src="/src/main.js"></script>
+        <!-- register -->
+        <form id="register-form" class="form">
+            <h2>Register</h2>
+            <div class="input-group">
+                <i class="fas fa-envelope"></i>
+                <input type="email" id="register-email" placeholder="Email" required>
+            </div>
+            <div class="input-group">
+                <i class="fas fa-lock"></i>
+                <input type="password" id="register-password" placeholder="Mot de passe" required>
+            </div>
+            <button type="submit">Register</button>
+        </form>
+    </div>
+
+    <script src="src/main.js"></script>
 </body>
 </html>

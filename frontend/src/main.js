@@ -32,14 +32,53 @@ async function loginUser(email, password) {
 
 // butons
 
-document.getElementById("register-btn").addEventListener("click", () => {
-  const email = document.getElementById("register-email").value;
-  const password = document.getElementById("register-password").value;
-  registerUser(email, password);
-});
+document.addEventListener('DOMContentLoaded', () => {
+  // Récupérer les éléments du DOM
+  const showLoginButton = document.getElementById('show-login');
+  const showRegisterButton = document.getElementById('show-register');
+  const loginForm = document.getElementById('login-form');
+  const registerForm = document.getElementById('register-form');
 
-document.getElementById("login-btn").addEventListener("click", () => {
-  const email = document.getElementById("login-email").value;
-  const password = document.getElementById("login-password").value;
-  loginUser(email, password);
+  // Afficher le formulaire de connexion
+  showLoginButton.addEventListener('click', () => {
+      loginForm.classList.add('active');
+      registerForm.classList.remove('active');
+      showLoginButton.classList.add('active');
+      showRegisterButton.classList.remove('active');
+  });
+
+  // Afficher le formulaire d'inscription
+  showRegisterButton.addEventListener('click', () => {
+      registerForm.classList.add('active');
+      loginForm.classList.remove('active');
+      showRegisterButton.classList.add('active');
+      showLoginButton.classList.remove('active');
+  });
+
+  // Gestion de la soumission du formulaire de connexion
+  loginForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const email = document.getElementById('login-email').value;
+      const password = document.getElementById('login-password').value;
+
+      if (email && password) {
+          alert('Connexion réussie !');
+          window.location.href = '/dashboard.html'; // Redirection vers le tableau de bord
+      } else {
+          alert('Veuillez remplir tous les champs.');
+      }
+  });
+
+  // Gestion de la soumission du formulaire d'inscription
+  registerForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const email = document.getElementById('register-email').value;
+      const password = document.getElementById('register-password').value;
+
+      if (email && password) {
+          alert('Inscription réussie !');
+      } else {
+          alert('Veuillez remplir tous les champs.');
+      }
+  });
 });

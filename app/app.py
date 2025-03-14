@@ -1,9 +1,9 @@
 from flask import Flask
 from routes.auth import auth_bp
-from controllers.database_handler import db
 from flask_cors import CORS
 from flask_jwt_extended import JWTManager
 from datetime import timedelta
+from controllers.database_handler import Base, engine
 
 def create_app():
     app = Flask(__name__)
@@ -18,6 +18,8 @@ def create_app():
 
 
     CORS(app)
+
+    Base.metadata.create_all(engine)
 
     # blueprint
     app.register_blueprint(auth_bp, url_prefix='/api/auth')
