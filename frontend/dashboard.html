@@ -1,4 +1,62 @@
-<!-- logout -->
-<button id="logout-btn">Se Deconnecter</button>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - SecurePassManager</title>
+    <link rel="stylesheet" href="src/dashboard.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <h2>SecurePassManager</h2>
+            <nav>
+                <ul>
+                    <li><a href="#" class="active">Dashboard</a></li>
+                    <li><a href="#">Pass Generator</a></li>
+                    <li><a href="#" id="logoutLink">Logout</a></li>
+                </ul>
+            </nav>
+        </aside>
 
-welcome to the dashboard
+        <!-- Main Content -->
+        <main class="main-content">
+            <header>
+                <h1>Dashboard</h1>
+            </header>
+
+            <!-- Liste des mots de passe -->
+            <section class="password-list">
+                <div class="password-item">
+                    <span class="website">example.com</span>
+                    <span class="username">user@example.com</span>
+                    <div class="actions">
+                        <button class="edit-btn">Edit</button>
+                        <button class="delete-btn">Delete</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Formulaire pour ajouter un mot de passe -->
+            <section class="add-password-form" id="addPasswordFormContainer">
+                <h2>Add Password</h2>
+                <form id="addPasswordForm">
+                    <div class="form-group">
+                        <input type="text" id="website" name="website" placeholder="Website" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="name" name="name" placeholder="Name" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" id="password" name="password" placeholder="Password" required>
+                    </div>
+                    <button type="submit">Add</button>
+                </form>
+            </section>
+        </main>
+    </div>
+
+    <script src="src/dashboard.js"></script>
+</body>
+</html>
