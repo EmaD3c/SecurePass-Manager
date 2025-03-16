@@ -20,9 +20,10 @@ async function loginUser(email, password) {
 
   if (response.ok) {
     const data = await response.json();
-    const token = data.access_token;
-    document.cookie = `token=${token}; path=/; Secure; SameSite=Strict`;
-    console.log("Token enregistré :", token);
+    const Fulltoken = data.token;
+    console.log("Réponse du serveur :", data);
+    document.cookie = `token=${Fulltoken}; path=/; Secure; SameSite=Strict`;
+    console.log("Token enregistré :", Fulltoken);
     window.location.href = "dashboard.html";
   } else {
     alert("Login failed");
@@ -62,8 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const password = document.getElementById('login-password').value;
 
       if (email && password) {
-          alert('Connexion réussie !');
-          window.location.href = '/dashboard.html'; // Redirection vers le tableau de bord
+          loginUser(email, password)
       } else {
           alert('Veuillez remplir tous les champs.');
       }
@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const password = document.getElementById('register-password').value;
 
       if (email && password) {
-          alert('Inscription réussie !');
+        registerUser(email, password)
       } else {
           alert('Veuillez remplir tous les champs.');
       }
