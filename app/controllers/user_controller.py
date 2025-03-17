@@ -24,6 +24,7 @@ def register():
         return jsonify({"error": "User already exists"}), 400
 
     hashed_password = generate_password_hash(password)
+    print(hashed_password)
 
     # Crée un nouvel utilisateur
     new_user = User(email=email, password=hashed_password)
