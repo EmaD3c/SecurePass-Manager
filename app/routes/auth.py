@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify
 from controllers.user_controller import register, login
 from flask_jwt_extended import jwt_required
-from controllers.password_controller import add_password, update_password, delete_password
+from controllers.password_controller import add_password, update_password, delete_password, list_passwords
 
 auth_bp = Blueprint('auth', __name__)
 
@@ -27,3 +27,8 @@ def update_password_route():
 @jwt_required()
 def delete_password_route():
     return delete_password()
+
+@auth_bp.route('/list_passwords', methods=['GET'])
+@jwt_required()
+def list_passwords_route():
+    return list_passwords()

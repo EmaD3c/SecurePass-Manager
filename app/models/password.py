@@ -1,8 +1,9 @@
 from sqlalchemy import Column, String, DateTime, Integer, ForeignKey
 from controllers.database_handler import Base
+from sqlalchemy_serializer import SerializerMixin
 
 
-class Password(Base):
+class Password(Base, SerializerMixin):
     __tablename__ = 'passwords'
 
     id = Column(Integer, primary_key=True)

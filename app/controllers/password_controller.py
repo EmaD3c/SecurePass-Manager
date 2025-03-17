@@ -49,3 +49,11 @@ def delete_password(password_id):
     db_session.commit()
 
     return jsonify({"message": "Mot de passe supprimé"}), 200
+
+def list_passwords():
+
+    user_id = get_jwt_identity()
+
+    passwords = db_session.query(Password).filter_by(user_id=user_id).all()
+
+    return jsonify([password.to_dict() for password in passwords]), 200

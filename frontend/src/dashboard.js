@@ -19,6 +19,9 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
   }
 
+  listPassword(token)
+
+
   const addPasswordForm = document.getElementById('addPasswordForm');
   if (addPasswordForm) {
       addPasswordForm.addEventListener('submit', async function(event) {
@@ -59,3 +62,13 @@ document.addEventListener("DOMContentLoaded", () => {
       });
   }
 });
+
+async function listPassword(token) {
+  const response = await fetch("http://localhost:8000/api/auth/list_passwords", {
+      method: "GET",
+      headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
+    });
+      const data = await response.json();
+      console.log(data)
+      return data
+  }
