@@ -11,14 +11,14 @@ def add_password():
     data = request.get_json() # Récupère les données de la requête
 
     if not data or 'name' not in data or 'password' not in data:
-        return jsonify({"error": "Nom et mot de passe requis"}), 400
+        return jsonify({"error": "Name and password required"}), 400
 
     new_password = Password(name=data['name'], password=data['password'], user_id=user_id)
 
     db_session.add(new_password)
     db_session.commit()
 
-    return jsonify({"message": "Mot de passe ajouté avec succès"}), 201
+    return jsonify({"message": "Password updated successfully"}), 201
 
 def update_password(password_id):
 
@@ -28,13 +28,13 @@ def update_password(password_id):
     password_entry = db_session.query(Password).filter_by(id=password_id, user_id=user_id).first()
 
     if not password_entry:
-        return jsonify({"error": "Mot de passe non trouvé"}), 404
+        return jsonify({"error": "Password not found"}), 404
 
     if 'password' in data:
         password_entry.password = data['password']
 
     db_session.commit()
-    return jsonify({"message": "Mot de passe mis à jour"}), 200
+    return jsonify({"message": "Password updated successfully"}), 200
 
 def delete_password(password_id):
 
@@ -43,12 +43,12 @@ def delete_password(password_id):
     password_entry = db_session.query(Password).filter_by(id=password_id, user_id=user_id).first()
 
     if not password_entry:
-        return jsonify({"error": "Mot de passe non trouvé"}), 404
+        return jsonify({"error": "Password not found"}), 404
 
     db_session.delete(password_entry)
     db_session.commit()
 
-    return jsonify({"message": "Mot de passe supprimé"}), 200
+    return jsonify({"message": "Password deleted"}), 200
 
 def list_passwords():
 

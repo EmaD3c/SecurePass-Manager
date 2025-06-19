@@ -41,7 +41,3 @@ curl -X DELETE http://localhost:8000/api/auth/delete_password \
 curl -X GET http://localhost:8000/api/auth/list_passwords \
      -H "Content-Type: application/json" \
      -H "Authorization: Bearer TOKEN"
-
-     
-
-code .

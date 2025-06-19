@@ -8,12 +8,12 @@ from controllers.database_handler import Base, engine
 def create_app():
     app = Flask(__name__)
 
-    # Configuration de Flask-JWT-Extended
+    # Configuration of Flask-JWT-Extended
     app.config['JWT_SECRET_KEY'] = 'your-secret-key'
-    app.config['JWT_TOKEN_LOCATION'] = ['headers']  # Les tokens seront dans les en-têtes HTTP
-    app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(hours=1)  # Durée de validité du token
+    app.config['JWT_TOKEN_LOCATION'] = ['headers']  # The tokens will be in the HTTP headers
+    app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(hours=1)  # Token validity period
 
-    # Initialisation de JWTManager
+    # Initialisation of JWTManager
     jwt = JWTManager(app)
 
 

@@ -26,11 +26,11 @@ def register():
     hashed_password = generate_password_hash(password)
     print(hashed_password)
 
-    # Crée un nouvel utilisateur
+    # Create new user
     new_user = User(email=email, password=hashed_password)
     save_user(email, hashed_password)
 
-    # Crée un token JWT avec Flask-JWT-Extended
+    # Create a JWT token with Flask-JWT-Extended
     token = create_access_token(identity=str(new_user.id))
 
     return jsonify({"token": token}), 201
@@ -38,24 +38,24 @@ def register():
 def login():
     data = request.get_json()
 
-    # Vérification des données d'entrée
+    # Checking input data
     email = data.get('email')
     password = data.get('password')
 
     if not email or not password:
         return jsonify({"error": "Email and password are required"}), 400
 
-    # Recherche de l'utilisateur par email
+    # User search by email
     user = db_session.query(User).filter_by(email=email).first()
 
     if not user:
         return jsonify({"error": "User not found"}), 401
 
-    # Vérification du mot de passe
+    # Password verification
     if not check_password_hash(user.password, password):
         return jsonify({"error": "Invalid password"}), 401
 
-     # Crée un token JWT avec Flask-JWT-Extended
+     # Create a JWT token with Flask-JWT-Extended
     token = create_access_token(identity=str(user.id))
 
     return jsonify({"token": token}), 200
@@ -72,7 +72,7 @@ def save_user(email, password):
 
 def update_user(self, user):
     """
-    Met à jour un utilisateur dans la base de données.
+    Updates a user in the database.
     """
     conn = self.connect()
     if conn is None:
@@ -91,7 +91,7 @@ def update_user(self, user):
 
 def delete_user(self, user_id):
     """
-    Supprime un utilisateur de la base de données.
+    Deletes a user from the database.
     """
     conn = self.connect()
     if conn is None:
