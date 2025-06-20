@@ -1,7 +1,8 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, render_template
 from controllers.user_controller import register, login
 from flask_jwt_extended import jwt_required
 from controllers.password_controller import add_password, update_password, delete_password, list_passwords
+from controllers.password_generator import generate_secure_password
 
 auth_bp = Blueprint('auth', __name__)
 
@@ -32,3 +33,15 @@ def delete_password_route():
 @jwt_required()
 def list_passwords_route():
     return list_passwords()
+
+@auth_bp.route("/generate-password", methods=["POST"])
+def generate_password():
+    data = request.json
+    password = generate_secure_password(
+        length=data.get("length", 12),
+        use_upper=data.get("upper", True),
+        use_lower=data.get("lower", True),
+        use_digits=data.get("digits", True),
+        use_special=data.get("special", True),
+    )
+    return jsonify({"password": password})
