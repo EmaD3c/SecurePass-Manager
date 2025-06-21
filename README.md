@@ -45,3 +45,5 @@ curl -X GET http://localhost:8000/api/auth/list_passwords \
      
 
 code .
+
+password generator : utilisation de secret et pas random pour plus de securiter 
