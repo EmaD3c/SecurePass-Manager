@@ -6,6 +6,9 @@
   --box-color: #FFFFFF;
   --text-color: #333333;
   --border-color: #E0E0E0;
+  --success-color: #4CAF50;
+  --danger-color: #E74C3C;
+  --warning-color: #FFA500;
 }
 
 /* Reset */
@@ -72,118 +75,193 @@ body {
 /* Main Content */
 .main-content {
   flex: 1;
-  padding: 20px;
+  padding: 25px;
   background-color: var(--background-color);
 }
 
 .main-content header h1 {
-  margin-bottom: 20px;
-  font-size: 32px;
+  margin-bottom: 25px;
+  font-size: 28px;
   color: var(--primary-color);
-  text-align: center;
+  text-align: left;
+}
+
+/* Formulaire d'ajout */
+.add-password-form {
+  background-color: var(--box-color);
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  padding: 18px;
+  margin-bottom: 20px;
+}
+
+.add-password-form h2 {
+  color: var(--primary-color);
+  font-size: 20px;
+  margin-bottom: 15px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+  align-items: flex-end;
+}
+
+.form-group {
+  margin-bottom: 0;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 13px;
+  color: #555;
+  font-weight: 500;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+  font-size: 13px;
+  transition: border-color 0.2s;
+}
+
+.form-group input:focus {
+  border-color: var(--primary-color);
+  outline: none;
+}
+
+.add-password-form button[type="submit"] {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background-color 0.2s;
+  height: 36px;
+}
+
+.add-password-form button[type="submit"]:hover {
+  background-color: var(--secondary-color);
 }
 
 /* Liste des mots de passe */
 .password-list {
-  margin-bottom: 30px;
-}
-
-.password-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 15px;
   background-color: var(--box-color);
-  border: 1px solid var(--border-color);
   border-radius: 8px;
-  margin-bottom: 10px;
-  color: var(--text-color);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  padding: 15px;
 }
 
-.password-item .website {
+.password-entry {
+  display: flex;
+  flex-direction: column;
+  padding: 12px 15px;
+  border-bottom: 1px solid var(--border-color);
+  position: relative;
+}
+
+.password-entry:last-child {
+  border-bottom: none;
+}
+
+.password-entry h3 {
+  font-weight: 600;
+  color: var(--primary-color);
+  margin-bottom: 4px;
+  font-size: 15px;
+}
+
+.password-entry .username {
+  color: #666;
+  font-size: 13px;
+  margin-bottom: 8px;
+}
+
+.password-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.password-label {
   font-weight: bold;
+  margin-right: 8px;
+  font-size: 13px;
+}
+
+.password-value {
+  font-family: monospace;
+  margin-right: 12px;
+  font-size: 13px;
+}
+
+.password-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.show-password,
+.edit-password {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 13px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.show-password {
   color: var(--primary-color);
 }
 
-.password-item .username {
-  color: var(--text-color);
+.show-password:hover {
+  background-color: rgba(116, 123, 255, 0.1);
 }
 
-.password-item .actions {
-  display: flex;
-  gap: 10px;
-}
+/* .edit-password {
+  color: var(--warning-color);
+} 
 
-.password-item button {
-  padding: 8px 12px;
+.edit-password:hover {
+  background-color: rgba(255, 165, 0, 0.1);
+} */
+
+.delete-btn {
+  background-color: var(--danger-color);
+  color: white;
   border: none;
+  padding: 4px 8px;
   border-radius: 4px;
   cursor: pointer;
-  font-size: 14px;
-  transition: background-color 0.3s;
+  font-size: 10px;
+  transition: opacity 0.2s;
 }
 
-.password-item .edit-btn {
-  background-color: var(--primary-color);
-  color: var(--box-color);
-}
-
-.password-item .delete-btn {
-  background-color: #E74C3C;
-  color: var(--box-color);
-}
-
-.password-item button:hover {
+.delete-btn:hover {
   opacity: 0.9;
 }
 
-/* Formulaire Ajouter un mot de passe */
-.add-password-form {
-  background-color: var(--box-color);
-  padding: 20px;
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-  margin-bottom: 30px;
-}
-
-.add-password-form h2 {
-  margin-bottom: 15px;
-  font-size: 24px;
-  color: var(--primary-color);
-  text-align: center;
-}
-
-.add-password-form form {
-  display: flex;
-  gap: 10px;
-  align-items: flex-end;
-}
-
-.add-password-form .form-group {
-  flex: 1;
-}
-
-.add-password-form input {
-  width: 100%;
-  padding: 8px;
-  border: 1px solid var(--border-color);
-  border-radius: 4px;
+/* Icônes */
+.password-actions i {
   font-size: 14px;
-  background-color: var(--box-color);
-  color: var(--text-color);
 }
 
-.add-password-form button {
-  padding: 10px 20px;
-  background-color: var(--primary-color);
-  color: var(--box-color);
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 16px;
-  transition: background-color 0.3s;
-}
-
-.add-password-form button:hover {
-  background-color: var(--secondary-color);
+/* Message quand aucun mot de passe */
+.no-passwords {
+  text-align: center;
+  padding: 30px 15px;
+  color: #777;
+  font-size: 14px;
 }

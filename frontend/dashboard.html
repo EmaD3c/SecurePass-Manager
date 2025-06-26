@@ -14,7 +14,7 @@
             <nav>
                 <ul>
                     <li><a href="dashboard.html" class="active">Dashboard</a></li>
-                    <li><a href="#"><li><a href="password_generator.html">Pass Generator</a></li></a></li>
+                    <li><a href="password_generator.html">Password Generator</a></li>
                     <li><a href="#" id="logoutLink">Logout</a></li>
                 </ul>
             </nav>
@@ -23,32 +23,34 @@
         <!-- Main Content -->
         <main class="main-content">
             <header>
-                <h1>Dashboard</h1>
+                <h1>My Passwords</h1>
             </header>
 
-            <!-- List of passwords -->
-            <section class="password-list">
-                <div class="password-item">
-                    <span class="website">example.com</span>
-                    <span class="username">user@example.com</span>
-                    <div class="actions">
-                        <button class="edit-btn">Edit</button>
-                        <button class="delete-btn">Delete</button>
-                    </div>
-                </div>
-            </section>
             <!-- Form to add a password -->
-            <section class="add-password-form" id="addPasswordFormContainer">
-                <h2>Add Password</h2>
+            <section class="add-password-form">
+                <h2>Add New Password</h2>
                 <form id="addPasswordForm">
-                    <div class="form-group">
-                        <input type="text" id="name" name="name" placeholder="Name" required>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="service">Service</label>
+                            <input type="text" id="service" name="service" placeholder="e.g. Google" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="username">Username/Email</label>
+                            <input type="text" id="username" name="username" placeholder="user@example.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" id="password" name="password" placeholder="••••••••" required>
+                        </div>
+                        <button type="submit">+ Add</button>
                     </div>
-                    <div class="form-group">
-                        <input type="password" id="password" name="password" placeholder="Password" required>
-                    </div>
-                    <button type="submit">Add</button>
                 </form>
+            </section>
+
+            <!-- List of passwords -->
+            <section class="password-list" id="passwordList">
+                <!-- Dynamic content will be inserted here by JavaScript -->
             </section>
         </main>
     </div>
