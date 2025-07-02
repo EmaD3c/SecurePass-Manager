@@ -20,6 +20,22 @@ document.addEventListener("DOMContentLoaded", async () => {
     // Load and display passwords
     await loadAndDisplayPasswords(token);
 
+    // Add logout handler
+    const logoutLink = document.getElementById('logoutLink');
+    if (logoutLink) {
+        logoutLink.addEventListener('click', function (e) {
+            e.preventDefault(); // avoids a default behavior of the link
+            logout();
+        });
+    }
+
+    function logout() {
+        // Delete cookie for logout
+        document.cookie = "token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC; SameSite=Strict";
+        console.log("Déconnexion réussie, redirection...");
+        window.location.href = "index.html";
+    }
+
     // Add password form handler
     const addPasswordForm = document.getElementById('addPasswordForm');
     if (addPasswordForm) {
@@ -63,17 +79,8 @@ document.addEventListener("DOMContentLoaded", async () => {
             }
         });
     }
-
-    // Logout handler
-    const logoutLink = document.getElementById('logoutLink');
-    if (logoutLink) {
-        logoutLink.addEventListener('click', (e) => {
-            e.preventDefault();
-            document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-            window.location.href = "index.html";
-        });
-    }
 });
+
 
 async function loadAndDisplayPasswords(token) {
     try {
@@ -82,6 +89,11 @@ async function loadAndDisplayPasswords(token) {
     } catch (error) {
         console.error("Failed to load passwords:", error);
     }
+}
+
+const logoutLink = document.getElementById('logoutLink');
+if (logoutLink) {
+    logoutLink.addEventListener('click', logout);
 }
 
 async function listPasswords(token) {

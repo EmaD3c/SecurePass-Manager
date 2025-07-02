@@ -9,7 +9,15 @@ async function registerUser(email, password) {
 
   const data = await response.json();
   console.log(data);
+
+  if (response.ok) {
+    // Call login automatically after registration
+    await loginUser(email, password);
+  } else {
+    alert(data.error || "Échec de l'inscription");
+  }
 }
+
 
 async function loginUser(email, password) {
   const response = await fetch("http://localhost:8000/api/auth/login", {
@@ -22,7 +30,7 @@ async function loginUser(email, password) {
     const data = await response.json();
     const Fulltoken = data.token;
     console.log("Réponse du serveur :", data);
-    document.cookie = `token=${Fulltoken}; path=/; Secure; SameSite=Strict`;
+    document.cookie = `token=${Fulltoken}; path=/; SameSite=Strict`;
     console.log("Token enregistré :", Fulltoken);
     window.location.href = "dashboard.html";
   } else {
