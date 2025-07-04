@@ -27,7 +27,9 @@ def update_password_route():
 @auth_bp.route('/delete_password', methods=['DELETE'])
 @jwt_required()
 def delete_password_route():
-    return delete_password()
+    data = request.get_json()
+    password_id = data["password_id"]
+    return delete_password(password_id)
 
 @auth_bp.route('/list_passwords', methods=['GET'])
 @jwt_required()

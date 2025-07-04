@@ -242,16 +242,22 @@ body {
   background-color: var(--danger-color);
   color: white;
   border: none;
-  padding: 4px 8px;
+  padding: 4px 6px;
   border-radius: 4px;
   cursor: pointer;
-  font-size: 10px;
+  font-size: 12px;
   transition: opacity 0.2s;
+  min-width: 60px;
+  max-width: 80px;
+  height: 28px;
+  text-align: center;
+  white-space: nowrap;
 }
 
 .delete-btn:hover {
   opacity: 0.9;
 }
+
 
 /* Icônes */
 .password-actions i {

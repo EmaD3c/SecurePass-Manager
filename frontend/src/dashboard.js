@@ -154,20 +154,21 @@ function displayPasswords(passwords) {
         });
     });
 
-    // Add event listeners for delete buttons
+ // Add event listeners for delete buttons
     document.querySelectorAll('.delete-btn').forEach(btn => {
         btn.addEventListener('click', async function() {
             const passwordId = this.getAttribute('data-id');
             const token = getCookie("token");
-            
+
             if (confirm("Are you sure you want to delete this password?")) {
                 try {
-                    const response = await fetch(`http://localhost:8000/api/auth/delete_password/${passwordId}`, {
+                    const response = await fetch('http://localhost:8000/api/auth/delete_password', {
                         method: "DELETE",
                         headers: { 
                             "Content-Type": "application/json", 
                             "Authorization": `Bearer ${token}` 
                         },
+                        body: JSON.stringify({ password_id: parseInt(passwordId) })
                     });
 
                     if (response.ok) {
