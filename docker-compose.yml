@@ -11,9 +11,8 @@ services:
     restart: unless-stopped
     volumes:
       - ./app:/app
-    environment:
-      - FLASK_ENV=development
-      - DATABASE_URL=postgresql://postgres:postgres@db:5432/postgres
+    env_file:
+      - .env
     depends_on:
       - db
 

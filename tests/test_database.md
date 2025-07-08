@@ -6,3 +6,6 @@ postgres=# SELECT * FROM users WHERE email = 'test@example.com';
 
 # search for all users
 postgres=# SELECT * FROM users; ! NOT WORKING !
+
+# search for all passwords
+SELECT id, name, password FROM passwords;

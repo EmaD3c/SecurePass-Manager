@@ -1,3 +1,4 @@
+import os
 from flask import Flask
 from routes.auth import auth_bp
 from flask_cors import CORS
@@ -9,7 +10,7 @@ def create_app():
     app = Flask(__name__)
 
     # Configuration of Flask-JWT-Extended
-    app.config['JWT_SECRET_KEY'] = 'your-secret-key'
+    app.config['JWT_SECRET_KEY'] = os.getenv('JWT_SECRET_KEY', 'fallback-secret')
     app.config['JWT_TOKEN_LOCATION'] = ['headers']  # The tokens will be in the HTTP headers
     app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(hours=1)  # Token validity period
 

@@ -6,3 +6,5 @@ psycopg2
 flask-cors
 flask_jwt_extended
 sqlalchemy_serializer
+python-dotenv
+cryptography
