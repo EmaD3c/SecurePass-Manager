@@ -22,7 +22,10 @@ def add_password_route():
 @auth_bp.route('/update_password', methods=['PUT'])
 @jwt_required()
 def update_password_route():
-    return update_password()
+    data = request.get_json()
+    password_id = data.get("password_id")
+    return update_password(password_id)
+
 
 @auth_bp.route('/delete_password', methods=['DELETE'])
 @jwt_required()

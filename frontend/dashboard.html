@@ -1,60 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - SecurePassManager</title>
-    <link rel="stylesheet" href="src/dashboard.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dashboard - SecurePassManager</title>
+  <link rel="stylesheet" href="src/dashboard.css" />
 </head>
 <body>
-    <div class="dashboard-container">
-        <!-- Sidebar -->
-        <aside class="sidebar">
-            <h2>SecurePassManager</h2>
-            <nav>
-                <ul>
-                    <li><a href="dashboard.html" class="active">Dashboard</a></li>
-                    <li><a href="password_generator.html">Password Generator</a></li>
-                    <li><a href="#" id="logoutLink">Logout</a></li>
-                </ul>
-            </nav>
-        </aside>
+  <div class="dashboard-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <h2>SecurePassManager</h2>
+      <nav>
+        <ul>
+          <li><a href="dashboard.html" class="active">Dashboard</a></li>
+          <li><a href="password_generator.html">Password Generator</a></li>
+          <li><a href="#" id="logoutLink">Logout</a></li>
+        </ul>
+      </nav>
+    </aside>
 
-        <!-- Main Content -->
-        <main class="main-content">
-            <header>
-                <h1>My Passwords</h1>
-            </header>
+    <!-- Main Content -->
+    <main class="main-content">
+      <header>
+        <h1>My Passwords</h1>
+      </header>
 
-            <!-- Form to add a password -->
-            <section class="add-password-form">
-                <h2>Add New Password</h2>
-                <form id="addPasswordForm">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="service">Service</label>
-                            <input type="text" id="service" name="service" placeholder="e.g. Google" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="username">Username/Email</label>
-                            <input type="text" id="username" name="username" placeholder="user@example.com">
-                        </div>
-                        <div class="form-group">
-                            <label for="password">Password</label>
-                            <input type="password" id="password" name="password" placeholder="••••••••" required>
-                        </div>
-                        <button type="submit">+ Add</button>
-                    </div>
-                </form>
-            </section>
+      <!-- Form to add a password -->
+      <section class="add-password-form">
+        <h2>Add New Password</h2>
+        <form id="addPasswordForm">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="service">Service</label>
+              <input type="text" id="service" name="service" placeholder="e.g. Google" required />
+            </div>
+            <div class="form-group">
+              <label for="username">Username/Email</label>
+              <input type="text" id="username" name="username" placeholder="user@example.com" />
+            </div>
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input type="password" id="password" name="password" placeholder="••••••••" required />
+            </div>
+            <button type="submit">+ Add</button>
+          </div>
+        </form>
+      </section>
 
-            <!-- List of passwords -->
-            <section class="password-list" id="passwordList">
-                <!-- Dynamic content will be inserted here by JavaScript -->
-            </section>
-        </main>
+      <!-- List of passwords -->
+      <section class="password-list" id="passwordList">
+  <!-- Exemple de mot de passe (inséré par JS) -->
+  <div class="password-entry">
+    <div class="entry-info">
+      <h3>Google</h3>
+      <p><strong>Username:</strong> user@gmail.com</p>
+      <p><strong>Password:</strong> ••••••••</p>
     </div>
+    <div class="entry-actions">
+      <button class="edit-btn">✏️ Edit</button>
+      <button class="delete-btn">🗑 Delete</button>
+    </div>
+  </div>
+</section>
 
-    <script src="src/dashboard.js"></script>
+  <!-- Modal for editing password -->
+  <div id="editModal" class="modal">
+    <div class="modal-content">
+      <span id="closeModal" class="close">&times;</span>
+      <h2 class="modal-title">Edit Password</h2>
+      <input type="password" id="newPasswordInput" class="modal-input" placeholder="New password" />
+      <button id="savePasswordBtn" class="modal-btn">Save</button>
+    </div>
+  </div>
+
+  <script src="src/dashboard.js"></script>
 </body>
 </html>

@@ -34,8 +34,8 @@ def update_password(password_id):
     if not password_entry:
         return jsonify({"error": "Password not found"}), 404
 
-    if 'password' in data:
-        password_entry.password = encrypt_password(data['password'])
+    if 'new_password' in data:
+        password_entry.password = encrypt_password(data['new_password'])
 
     db_session.commit()
     return jsonify({"message": "Password updated successfully"}), 200
@@ -71,4 +71,3 @@ def list_passwords():
         })
 
     return jsonify(result), 200
-

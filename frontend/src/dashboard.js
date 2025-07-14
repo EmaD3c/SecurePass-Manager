@@ -9,34 +9,27 @@ function getCookie(name) {
 
 document.addEventListener("DOMContentLoaded", async () => {
     const token = getCookie("token");
-    console.log("Token found:", token);
-
     if (!token) {
         alert("Token not found. Please log in again.");
         window.location.href = "index.html";
         return;
     }
 
-    // Load and display passwords
     await loadAndDisplayPasswords(token);
 
-    // Add logout handler
     const logoutLink = document.getElementById('logoutLink');
     if (logoutLink) {
         logoutLink.addEventListener('click', function (e) {
-            e.preventDefault(); // avoids a default behavior of the link
+            e.preventDefault();
             logout();
         });
     }
 
     function logout() {
-        // Delete cookie for logout
         document.cookie = "token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC; SameSite=Strict";
-        console.log("Déconnexion réussie, redirection...");
         window.location.href = "index.html";
     }
 
-    // Add password form handler
     const addPasswordForm = document.getElementById('addPasswordForm');
     if (addPasswordForm) {
         addPasswordForm.addEventListener('submit', async function(event) {
@@ -79,8 +72,12 @@ document.addEventListener("DOMContentLoaded", async () => {
             }
         });
     }
-});
 
+    // close the modal
+    document.getElementById("closeModal").addEventListener("click", function () {
+        document.getElementById("editModal").style.display = "none";
+    });
+});
 
 async function loadAndDisplayPasswords(token) {
     try {
@@ -89,11 +86,6 @@ async function loadAndDisplayPasswords(token) {
     } catch (error) {
         console.error("Failed to load passwords:", error);
     }
-}
-
-const logoutLink = document.getElementById('logoutLink');
-if (logoutLink) {
-    logoutLink.addEventListener('click', logout);
 }
 
 async function listPasswords(token) {
@@ -125,48 +117,48 @@ function displayPasswords(passwords) {
         const passwordElement = document.createElement('div');
         passwordElement.className = 'password-entry';
         passwordElement.innerHTML = `
-            <h3>${password.name}</h3>
-            <p class="username">${password.username || 'Not specified'}</p>
-            <div class="password-row">
-                <span class="password-label">Password:</span>
-                <span class="password-value">••••••••</span>
-                <button class="show-password" data-password="${password.password}">Show</button>
+            <div class="entry-info">
+                <h3>${password.name}</h3>
+                <p><strong>Username:</strong> ${password.username || 'Not specified'}</p>
+                <div class="password-row">
+                    <span class="password-label">Password:</span>
+                    <span class="password-value">••••••••</span>
+                    <button class="show-password" data-password="${password.password}">Show</button>
+                </div>
             </div>
-            <button class="delete-btn" data-id="${password.id}">Delete</button>
-            <hr>
+            <div class="entry-actions">
+                <button class="edit-btn" data-id="${password.id}" data-password="${password.password}">✏️ Edit</button>
+                <button class="delete-btn" data-id="${password.id}">🗑 Delete</button>
+            </div>
         `;
         passwordList.appendChild(passwordElement);
     });
 
-    // Add event listeners for show password buttons
+    // Show/hide password toggle
     document.querySelectorAll('.show-password').forEach(btn => {
-        btn.addEventListener('click', function() {
-            const passwordValue = this.getAttribute('data-password');
-            const passwordDisplay = this.previousElementSibling;
-            
-            if (passwordDisplay.textContent === '••••••••') {
-                passwordDisplay.textContent = passwordValue;
-                this.textContent = 'Hide';
-            } else {
-                passwordDisplay.textContent = '••••••••';
-                this.textContent = 'Show';
-            }
+        btn.addEventListener('click', function () {
+            const valueSpan = this.previousElementSibling;
+            const actualPassword = this.dataset.password;
+            const hidden = valueSpan.textContent === '••••••••';
+
+            valueSpan.textContent = hidden ? actualPassword : '••••••••';
+            this.textContent = hidden ? 'Hide' : 'Show';
         });
     });
 
- // Add event listeners for delete buttons
+    // Delete password
     document.querySelectorAll('.delete-btn').forEach(btn => {
-        btn.addEventListener('click', async function() {
-            const passwordId = this.getAttribute('data-id');
+        btn.addEventListener('click', async function () {
+            const passwordId = this.dataset.id;
             const token = getCookie("token");
 
             if (confirm("Are you sure you want to delete this password?")) {
                 try {
-                    const response = await fetch('http://localhost:8000/api/auth/delete_password', {
+                    const response = await fetch("http://localhost:8000/api/auth/delete_password", {
                         method: "DELETE",
-                        headers: { 
-                            "Content-Type": "application/json", 
-                            "Authorization": `Bearer ${token}` 
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Authorization": `Bearer ${token}`
                         },
                         body: JSON.stringify({ password_id: parseInt(passwordId) })
                     });
@@ -184,5 +176,52 @@ function displayPasswords(passwords) {
                 }
             }
         });
+    });
+
+    // Open modal
+    document.querySelectorAll('.edit-btn').forEach(btn => {
+        btn.addEventListener('click', function () {
+            const modal = document.getElementById("editModal");
+            const input = document.getElementById("newPasswordInput");
+            const passwordId = this.dataset.id;
+
+            modal.dataset.id = passwordId;
+            input.value = this.dataset.password;
+            modal.style.display = "flex";
+        });
+    });
+
+    // Update password
+    document.getElementById("savePasswordBtn").addEventListener("click", async function () {
+        const modal = document.getElementById("editModal");
+        const newPassword = document.getElementById("newPasswordInput").value;
+        const passwordId = modal.dataset.id;
+        const token = getCookie("token");
+
+        try {
+            const response = await fetch("http://localhost:8000/api/auth/update_password", {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    password_id: parseInt(passwordId),
+                    new_password: newPassword
+                })
+            });
+
+            if (response.ok) {
+                alert("Password updated successfully!");
+                modal.style.display = "none";
+                await loadAndDisplayPasswords(token);
+            } else {
+                const error = await response.json();
+                alert("Error: " + (error.error || "Failed to update password"));
+            }
+        } catch (error) {
+            console.error("Error:", error);
+            alert("An error occurred while updating the password.");
+        }
     });
 }
