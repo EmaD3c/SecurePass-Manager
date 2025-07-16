@@ -9,16 +9,19 @@
 <body>
   <div class="dashboard-container">
     <!-- Sidebar -->
-    <aside class="sidebar">
-      <h2>SecurePassManager</h2>
+        <aside class="sidebar">
+      <div class="sidebar-header">
+        <h2>SecurePassManager</h2>
+      </div>
       <nav>
-        <ul>
-          <li><a href="dashboard.html" class="active">Dashboard</a></li>
-          <li><a href="password_generator.html">Password Generator</a></li>
-          <li><a href="#" id="logoutLink">Logout</a></li>
+        <ul class="nav-links">
+          <li><a href="dashboard.html" class="active"><span></span> Dashboard</a></li>
+          <li><a href="password_generator.html"><span></span> Générateur</a></li>
+          <li><a href="#" id="logoutLink"><span></span> Logout</a></li>
         </ul>
       </nav>
     </aside>
+
 
     <!-- Main Content -->
     <main class="main-content">
@@ -50,7 +53,6 @@
 
       <!-- List of passwords -->
       <section class="password-list" id="passwordList">
-  <!-- Exemple de mot de passe (inséré par JS) -->
   <div class="password-entry">
     <div class="entry-info">
       <h3>Google</h3>

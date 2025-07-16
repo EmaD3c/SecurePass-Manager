@@ -9,4 +9,5 @@ class Password(Base, SerializerMixin):
     id = Column(Integer, primary_key=True)
     name = Column(String(100), nullable=False)
     password = Column(String(255), nullable=False)
+    username = Column(String(255), nullable=True)  # <-- ICI
     user_id = Column(Integer, ForeignKey('users.id'), nullable=False)

@@ -117,20 +117,23 @@ function displayPasswords(passwords) {
         const passwordElement = document.createElement('div');
         passwordElement.className = 'password-entry';
         passwordElement.innerHTML = `
-            <div class="entry-info">
-                <h3>${password.name}</h3>
-                <p><strong>Username:</strong> ${password.username || 'Not specified'}</p>
-                <div class="password-row">
-                    <span class="password-label">Password:</span>
-                    <span class="password-value">••••••••</span>
-                    <button class="show-password" data-password="${password.password}">Show</button>
-                </div>
+        <div class="entry-info">
+          <h3>${password.name}</h3>
+          <div class="entry-row">
+            <p class="username"><strong>Username:</strong> ${password.username}</p>
+            <div class="password-row">
+              <span class="password-label">Password:</span>
+              <span class="password-value">••••••••</span>
+              <button class="show-password" data-password="${password.password}">Show</button>
             </div>
-            <div class="entry-actions">
-                <button class="edit-btn" data-id="${password.id}" data-password="${password.password}">✏️ Edit</button>
-                <button class="delete-btn" data-id="${password.id}">🗑 Delete</button>
-            </div>
-        `;
+          </div>
+        </div>
+        <div class="entry-actions">
+          <button class="edit-btn" data-id="${password.id}" data-password="${password.password}">✏️ Edit</button>
+          <button class="delete-btn" data-id="${password.id}">🗑 Delete</button>
+        </div>
+      `;
+
         passwordList.appendChild(passwordElement);
     });
 

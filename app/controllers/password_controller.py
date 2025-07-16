@@ -16,7 +16,9 @@ def add_password():
 
     encrypted_pw = encrypt_password(data['password'])
 
-    new_password = Password(name=data['name'], password=encrypted_pw, user_id=user_id)
+    username = data.get('username')
+    new_password = Password(name=data['name'], password=encrypted_pw, username=username, user_id=user_id)
+
 
     db_session.add(new_password)
     db_session.commit()
@@ -67,6 +69,7 @@ def list_passwords():
         result.append({
             "id": p.id,
             "name": p.name,
+            "username": p.username,
             "password": decrypted_pw
         })
 
