@@ -10,6 +10,23 @@ document.addEventListener('DOMContentLoaded', () => {
     const strengthBar = document.querySelector('.strength-bar');
     const strengthText = document.querySelector('.strength-text');
 
+      // Check if token exist
+    const token = getCookie("token");
+    if (!token) {
+        alert("Token not found. Please log in again.");
+        window.location.href = "index.html";
+        return;
+    }
+
+    const logoutLink = document.getElementById('logoutLink');
+    if (logoutLink) {
+        logoutLink.addEventListener('click', function (e) {
+            e.preventDefault();
+            logout();
+        });
+    }
+
+
     generateBtn.addEventListener('click', generatePassword);
     copyBtn.addEventListener('click', copyPassword);
 
@@ -92,5 +109,16 @@ document.addEventListener('DOMContentLoaded', () => {
             strengthBar.style.backgroundColor = '#4CAF50';
             strengthText.textContent = 'Password strength: Strong';
         }
+    }
+
+      // logout Fonction
+    function logout() {
+        document.cookie = "token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC; SameSite=Strict";
+        window.location.href = "index.html";
+    }
+    function getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
     }
 });
