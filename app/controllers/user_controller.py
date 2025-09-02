@@ -3,6 +3,7 @@ from models.user import User
 from werkzeug.security import generate_password_hash, check_password_hash
 from controllers.database_handler import db_session
 from flask_jwt_extended import create_access_token
+import re
 
 
 def get_user_by_email(email):
@@ -17,6 +18,16 @@ def register():
 
     if not email or not password:
         return jsonify({"error": "Email and password are required"}), 400
+    
+    # Password must be strong
+    if len(password) < 8:
+        return jsonify({"error": "Password must be at least 8 characters"}), 400
+    if not re.search(r"[A-Z]", password):
+          return jsonify({"error": "Password must contain at least one uppercase letter"}), 400
+    if not re.search(r"[0-9]", password):
+          return jsonify({"error": "Password must contain at least one digit"}), 400
+    if not re.search(r"[!@#$%^&*(),.?\":{}|<>]", password):
+          return jsonify({"error": "Password must contain at least one special character"}), 400
 
     existing_user = get_user_by_email(email=email)
 
